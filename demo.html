@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        section {
+            width: 500px;
+            height: 300px;
+            position: relative;
+            top: 100px;
+            left: calc(50% - 250px);
+            overflow: hidden;
+        }
+
+        .wrap {
+            width: 2000px;
+            height: 100%;
+            position: absolute;
+            display: flex;
+        }
+
+        .wrap li {
+            width: 500px;
+            height: 300px;
+        }
+
+        .wrap div {
+            width: 100%;
+            height: 100%;
+        }
+
+        .wrap div img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <ul class="wrap">
+            <li>
+                <div><img src="./img/1.jpg" alt=""></div>
+            </li>
+            <li>
+                <div><img src="./img/2.webp" alt=""></div>
+            </li>
+            <li>
+                <div><img src="./img/3.webp" alt=""></div>
+            </li>
+            <li>
+                <div><img src="./img/1.jpg" alt=""></div>
+            </li>
+        </ul>
+    </section>
+
+    <script>
+        var owrap = document.querySelector('.wrap');
+        var owidth = document.querySelector('section').clientWidth;
+        var oli = document.querySelectorAll('.wrap li').length - 1;
+        var moveWidth = owidth;
+        function move(dom, target, callback) {
+            clearInterval(dom.timer);
+            dom.timer = setInterval(function () {
+                var speed = (target - dom.offsetLeft) / 5;
+                speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                dom.style.left = dom.offsetLeft + speed + 'px';
+                if (dom.offsetLeft == target) {
+                    clearInterval(dom.timer);
+                    typeof (callback) == 'function' && callback();
+                }
+            },30)
+        }
+
+        function line () {
+            setInterval (function() {
+                move(owrap,-moveWidth,function() {
+                    if(-moveWidth == oli * -owidth){
+                        owrap.style.left = 0 + 'px';
+                        moveWidth = 0;
+                    }
+                    moveWidth += owidth;
+                })
+            },3000)
+        }
+        line();
+    </script>
+</body>
+
+</html>
